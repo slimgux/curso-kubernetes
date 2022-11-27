@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  mysql8:
+    container_name: mysql8
+    image: mysql:8.0.31
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - data-mysql:/var/lib/mysql
+    restart: always
+    networks:
+      - spring
+  usuarios:
+    container_name: usuarios
+    image: grangux/usuarios:latest
+    ports:
+      - "8001:8001"
+    env_file: ./usuarios/.env
+    depends_on:
+      - mysql8
+    restart: always
+    networks:
+      - spring
+volumes:
+  data-mysql:
+    name: data-mysql
+networks:
+  spring:

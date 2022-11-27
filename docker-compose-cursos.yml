@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  postgres14:
+    container_name: postgres14
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - spring
+  cursos:
+    container_name: cursos
+    image: grangux/cursos:latest
+    ports:
+      - "8002:8002"
+    env_file: ./cursos/.env
+    depends_on:
+      - postgres14
+    restart: always
+    networks:
+      - spring
+volumes:
+  data-postgres:
+    name: data-postgres
+networks:
+  spring:
