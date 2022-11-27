@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "usuarios", url = "http://ec2-54-89-250-222.compute-1.amazonaws.com:8001/usuarios")
+@FeignClient(name = "usuarios", url = "http://usuarios:8001/usuarios/usuarios")
 public interface UsuarioClient {
 
     @PostMapping("/save")
