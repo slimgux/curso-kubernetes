@@ -1,0 +1,66 @@
+version: "3.9"
+services:
+  mysql8:
+    container_name: mysql8
+    image: mysql:8.0.31
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - data-mysql:/var/lib/mysql
+    restart: always
+    networks:
+      - spring
+  postgres14:
+    container_name: postgres14
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - spring
+  usuarios:
+    container_name: usuarios
+    build:
+      context: ./
+      dockerfile: ./usuarios/Dockerfile
+    ports:
+      - "8001:8001"
+    env_file: ./usuarios/.env
+    depends_on:
+      - mysql8
+      - postgres14
+    restart: always
+    networks:
+      - spring
+  cursos:
+    container_name: cursos
+    build:
+      context: ./
+      dockerfile: ./cursos/Dockerfile
+    ports:
+      - "8002:8002"
+    env_file: ./cursos/.env
+    depends_on:
+      - mysql8
+      - postgres14
+    restart: always
+    networks:
+      - spring
+volumes:
+  data-mysql:
+    name: data-mysql
+  data-postgres:
+    name: data-postgres
+networks:
+  spring:

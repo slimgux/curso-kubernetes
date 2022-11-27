@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -49,7 +50,7 @@ public class UsuarioController {
 
     @GetMapping("/all")
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(usuarioService.findAll().stream().map(usuarioDtoMapper::toDto).toList());
+        return ResponseEntity.ok(Collections.singletonMap("usuarios", usuarioService.findAll().stream().map(usuarioDtoMapper::toDto).toList()));
     }
 
     @GetMapping("/find/{id}")

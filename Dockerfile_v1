@@ -1,0 +1,13 @@
+FROM openjdk:17.0.2
+WORKDIR /app/usuarios
+COPY ./pom.xml /app
+COPY ./usuarios/.mvn ./.mvn
+COPY ./usuarios/mvnw .
+COPY ./usuarios/pom.xml .
+#compila solo para bajar las dependencias ahorra tiempo por que cachea las capas
+RUN ./mvnw clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r ./target/
+#RUN ./mvnw dependency:go-offline alternativa si no va lo de arriba
+COPY ./usuarios/src ./src
+RUN ./mvnw clean package -DskipTests
+EXPOSE 8001
+ENTRYPOINT ["java", "-jar", "./target/usuarios-0.0.1-SNAPSHOT.jar"]
