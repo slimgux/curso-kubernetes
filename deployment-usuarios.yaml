@@ -19,4 +19,7 @@ spec:
         - containerPort: 8001
         env:
           - name: SPRING_PROFILES_ACTIVE
-            value: "dev"
+            valueFrom:
+              configMapKeyRef:
+                name: usuarios
+                key: profile

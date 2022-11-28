@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: usuarios
+data:
+  profile: "dev"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cursos
+data:
+  profile: "dev"

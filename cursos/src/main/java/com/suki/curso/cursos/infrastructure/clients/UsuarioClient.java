@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "usuarios", url = "http://usuarios:8001/usuarios/usuarios")
+@FeignClient(name = "usuarios")
 public interface UsuarioClient {
 
     @PostMapping("/save")

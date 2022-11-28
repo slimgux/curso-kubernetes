@@ -9,15 +9,22 @@ spec:
       app: cursos
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: cursos
     spec:
       containers:
-      - image: grangux/cursos:v2
+      - image: grangux/cursos:latest
         name: cursos
         ports:
         - containerPort: 8001
         env:
           - name: SPRING_PROFILES_ACTIVE
-            value: "dev"
+            valueFrom:
+              configMapKeyRef:
+                name: cursos
+                key: profile
+          - name: DATA_BASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cursos
+                key: password
